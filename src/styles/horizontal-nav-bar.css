@@ -13,17 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package app
+.nav-bar-a {
+  background-color: var(--nav-bar-block-color)
+}
 
-import index.Index
-import routing.Router
-import routing.route
+.nav-bar-li {
+  display: inline;
+  float: left;
+}
 
-/**
- * @author Kaidan Gustave
- */
-fun main(args: Array<String>) {
-    route("/", Index())
+.nav-bar-li .nav-bar-a {
+  display: block;
+  color: var(--selection-highlight);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: "Kingthings Clarity", sans-serif;
+}
 
-    Router.launch()
+.nav-bar-li .nav-bar-a:hover {
+  color: var(--nav-bar-block-color) darken;
+  background-color: var(--selection-highlight);
+  transition-duration: .5s;
+}
+
+.nav-bar-ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
