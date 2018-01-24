@@ -21,8 +21,8 @@
 /public/images/
 
 # Commit .babelrc, gulpfile.js, webpack.config.js, package.json, and package-lock.json
-!.babelrc
-!gulpfile.js
-!package.json
-!package-lock.json
-!webpack.config.js
+!/.babelrc
+!/gulpfile.js
+!/package.json
+!/package-lock.json
+!/webpack.config.js

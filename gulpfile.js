@@ -16,23 +16,27 @@
 const gulp = require('gulp');
 const clean = require('gulp-clean');
 
+function cleanOut(dir) {
+  return gulp.src(dir, {read: false}).pipe(clean())
+}
+
 // Cleans all .js files from the build directory
-gulp.task('clean-js', () => gulp.src('build/**/*.js', {read: false}).pipe(clean()));
+gulp.task('clean-js', () => cleanOut('build/**/*.js'));
 
 // Cleans all .css files from the build directory
-gulp.task('clean-css', () => gulp.src('build/css/', {read: false}).pipe(clean()));
+gulp.task('clean-css', () => cleanOut('build/css/'));
 
 // Cleans all .html files from the build directory
-gulp.task('clean-html', () => gulp.src('build/**/*.html', {read: false}).pipe(clean()));
+gulp.task('clean-html', () => cleanOut('build/**/*.html'));
 
 // Cleans all kotlin2js libraries
-gulp.task('clean-kotlin-build', () => gulp.src('kotlin_build/', {read: false}).pipe(clean()));
+gulp.task('clean-kotlin-build', () => cleanOut('kotlin_build/'));
 
 // Cleans the build directory optimized for the next development build
 gulp.task('clean-dev', ['clean-js', 'clean-css', 'clean-html', 'clean-kotlin-build']);
 
 // Cleans all build files and kotlin2js libraries
-gulp.task('clean-all', ['clean-kotlin-build'], () => gulp.src('build/', {read: false}).pipe(clean()));
+gulp.task('clean-all', ['clean-kotlin-build'], () => cleanOut('build/'));
 
 // Default task
 gulp.task('default', ['clean-dev']);

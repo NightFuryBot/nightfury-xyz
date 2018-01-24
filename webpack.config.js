@@ -78,7 +78,7 @@ function minifyContent(content) {
 const webpackPlugins = [
   new CleanWebpackPlugin([buildDir, 'kotlin_build'], !production? { // !NANI?
     // Do not regenerate favicons in development builds
-    exclude: ['favicons', 'favicons.json']
+    exclude: ['favicons', 'favicons.json', 'fonts']
   } : {}),
 
   new KotlinWebpackPlugin({
