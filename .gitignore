@@ -1,0 +1,25 @@
+### Intellij Project Files ###
+/.idea/
+*.iml
+
+# Commit libraries configuration
+!/.idea/libraries/
+
+
+### Project Outputs ###
+/build/
+/dist/
+/kotlin_build/
+
+
+### Resources ###
+/node_modules/
+/public/fonts/
+/public/images/
+
+# Commit .babelrc, gulpfile.js, webpack.config.js, package.json, and package-lock.json
+!.babelrc
+!gulpfile.js
+!package.json
+!package-lock.json
+!webpack.config.js

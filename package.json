@@ -1,0 +1,55 @@
+{
+  "name": "nightfury-xyz",
+  "version": "1.0.0",
+  "description": "A react website for the Discord bot: NightFury",
+  "private": true,
+  "scripts": {
+    "webpack": "webpack --progress"
+  },
+  "keywords": [
+    "NightFury",
+    "Bot",
+    "Discord",
+    "Discord",
+    "Bot",
+    "Toothless"
+  ],
+  "author": "Kaidan Gustave",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/NightFuryBot/nightfury-xyz/issues"
+  },
+  "homepage": "https://github.com/NightFuryBot/nightfury-xyz#readme",
+  "devDependencies": {
+    "@jetbrains/gen-idea-libs": "^1.0.7",
+    "@jetbrains/kotlin-extensions": "^1.0.0-pre.16",
+    "@jetbrains/kotlin-react": "^16.2.0-pre.16",
+    "@jetbrains/kotlin-react-dom": "^16.2.0-pre.16",
+    "@jetbrains/kotlin-webpack-plugin": "^1.2.1",
+    "@jetbrains/kotlinc-js-api": "^1.2.3",
+    "@jetbrains/ts2kt-automator": "^1.0.8",
+    "@types/webpack": "^3.8.3",
+    "babel-loader": "^7.1.2",
+    "babel-minify-webpack-plugin": "^0.2.0",
+    "clean-css": "^4.1.9",
+    "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.3.1",
+    "css-loader": "^0.28.9",
+    "favicons-webpack-plugin": "0.0.7",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "html-webpack-include-assets-plugin": "^1.0.2",
+    "html-webpack-plugin": "^2.30.1",
+    "kotlin": "^1.2.20",
+    "kotlinx-html": "^0.6.8",
+    "on-build-webpack": "^0.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-svg-loader": "^2.1.0",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.1",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {}
+}
