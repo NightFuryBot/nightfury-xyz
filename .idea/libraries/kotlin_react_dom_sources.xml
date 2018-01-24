@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="kotlin-react-dom-sources" type="kotlin.js">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@jetbrains/kotlin-react-dom/build/libs/kotlin-react-dom.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@jetbrains/kotlin-react-dom/build/libs/kotlin-react-dom-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

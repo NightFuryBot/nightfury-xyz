@@ -1,5 +1,8 @@
 ### Intellij Project Files ###
-/.idea/
+/.idea/copyright/
+/.idea/dictionaries/
+/.idea/inspectionProfiles/
+/.idea/*.xml
 *.iml
 
 # Commit libraries configuration

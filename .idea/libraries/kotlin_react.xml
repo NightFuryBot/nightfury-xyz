@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kotlin-react" type="kotlin.js">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@jetbrains/kotlin-react/build/libs/kotlin-react.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

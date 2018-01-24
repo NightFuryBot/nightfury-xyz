@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="kotlin-extensions-sources" type="kotlin.js">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@jetbrains/kotlin-extensions/build/libs/kotlin-extensions.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@jetbrains/kotlin-extensions/build/libs/kotlin-extensions-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

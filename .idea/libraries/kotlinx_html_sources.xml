@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kotlinx-html-sources" type="kotlin.js">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/node_modules/kotlinx-html/kotlinx-html-js" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
