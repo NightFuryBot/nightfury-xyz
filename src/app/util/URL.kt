@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import url(./horizontal-nav-bar.css);
+package app.util
 
-:root {
-  --dark-text: darkred;
-  --light-text: orangered;
-  --selection-highlight: #B3E25E;
-  --main-page-color: #313332;
-  --nav-bar-block-color: #414442;
-}
-
-.copyright {
-  top: 90%;
-  left: 50%;
-  position: fixed;
-  vertical-align: middle;
-  font-family: sans-serif;
-  font-weight: bold;
-  transform: translate(-50%, -10%);
-  color: var(--light-text);
-}
-
-body {
-  background-color: var(--main-page-color);
-}
+const val BOT_INVITE_LINK = "https://discordapp.com/oauth2/authorize?client_id=263895505145298944&permissions=671211734&scope=bot"
+const val GITHUB_ORG = "https://github.com/NightFuryBot"
+const val DISCORD_SERVER_LINK = "https://discord.gg/XCmwxy8" // join plz

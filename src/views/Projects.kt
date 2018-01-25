@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import url(./horizontal-nav-bar.css);
+package views
 
-:root {
-  --dark-text: darkred;
-  --light-text: orangered;
-  --selection-highlight: #B3E25E;
-  --main-page-color: #313332;
-  --nav-bar-block-color: #414442;
-}
+import views.components.NavigationBar
+import kotlinext.js.invoke
+import kotlinext.js.require
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
 
-.copyright {
-  top: 90%;
-  left: 50%;
-  position: fixed;
-  vertical-align: middle;
-  font-family: sans-serif;
-  font-weight: bold;
-  transform: translate(-50%, -10%);
-  color: var(--light-text);
-}
+@Suppress("Unused")
+val projectsCss: dynamic = require("styles/projects.css")
 
-body {
-  background-color: var(--main-page-color);
+class Projects : RComponent<RProps, RState>() {
+    private val navBar: NavigationBar = NavigationBar()
+
+    override fun RBuilder.render() {
+        with(navBar) { this@render.render() }
+        // TODO Projects Page
+    }
 }

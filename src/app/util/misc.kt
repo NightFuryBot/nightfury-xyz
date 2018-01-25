@@ -13,27 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import url(./horizontal-nav-bar.css);
+package app.util
 
-:root {
-  --dark-text: darkred;
-  --light-text: orangered;
-  --selection-highlight: #B3E25E;
-  --main-page-color: #313332;
-  --nav-bar-block-color: #414442;
-}
-
-.copyright {
-  top: 90%;
-  left: 50%;
-  position: fixed;
-  vertical-align: middle;
-  font-family: sans-serif;
-  font-weight: bold;
-  transform: translate(-50%, -10%);
-  color: var(--light-text);
-}
-
-body {
-  background-color: var(--main-page-color);
+val production: Boolean by lazy {
+    try {
+        js("process.env.NODE_ENV === 'production'").unsafeCast<Boolean>()
+    } catch(t: Throwable) {
+        Logger.GLOBAL.warn("Could not determine production state of application!")
+        false // We should never be in production if something like this is failing anyways
+    }
 }

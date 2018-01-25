@@ -46,10 +46,11 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 // Paths
 const buildDir = 'build';
 const buildDirPath = path.join(__dirname, `${buildDir}`);
-const kotlinBuildPath = path.join(__dirname, 'kotlin_build');
+const kotlinBuildDir = 'kotlin_build';
+const kotlinBuildPath = path.resolve(__dirname, kotlinBuildDir);
 
 // Other Constants
-const styleSheets = ['index.css']; // These should be in src/styles
+const styleSheets = ['index.css', 'projects.css']; // These should be in src/styles
 const cssMinifier = new CleanCSS();
 
 function minifyContent(content) {
@@ -65,6 +66,8 @@ function minifyContent(content) {
       for(let error in errors) {
         console.error(error);
       }
+
+      return content;
     }
   } else {
     // No minifying required, we are building for development
@@ -76,16 +79,19 @@ function minifyContent(content) {
 // We do this outside of the module.exports because
 // in production we add some extra plugins (see below)
 const webpackPlugins = [
-  new CleanWebpackPlugin([buildDir, 'kotlin_build'], !production? { // !NANI?
+  new CleanWebpackPlugin([buildDir, kotlinBuildDir], !production? { // !NANI?
     // Do not regenerate favicons in development builds
     exclude: ['favicons', 'favicons.json', 'fonts']
   } : {}),
 
   new KotlinWebpackPlugin({
-    src: __dirname,
+    src: __dirname + '/src',
     verbose: false,
-    optimize: true,
+    optimize: production,
+    moduleName: 'kotlin-app',
     output: kotlinBuildPath,
+    metaInfo: false,
+    sourceMaps: true,
     libraries: [
       require.resolve('@jetbrains/kotlin-extensions'),
       require.resolve('@jetbrains/kotlin-react'),
@@ -115,8 +121,14 @@ const webpackPlugins = [
   new HtmlWebpackPlugin({
     output: 'index.html',
     title: 'NightFury',
-    template: path.join(__dirname, 'public', 'index.html'),
-    minify: production? {} : false
+    template: path.join(__dirname, 'public', 'index.html')
+  }),
+
+  new HtmlWebpackPlugin({
+    filename: 'projects.html',
+    output: 'projects.html',
+    title: 'Projects',
+    template: path.join(__dirname, 'public', 'projects.html')
   }),
 
   new HtmlWebpackIncludeAssetsPlugin({
@@ -149,14 +161,22 @@ if(production) {
 }
 
 module.exports = {
-  entry: 'kotlinApp',
+  entry: 'kotlin-app',
+
+  devServer: {
+    index: 'index.html',
+    watchContentBase: true,
+    contentBase: path.join(__dirname, buildDir)
+  },
 
   resolve: {
     alias: {
       // Alias src/styles to just styles
-      styles: path.join(__dirname, 'src', 'styles')
+      styles: path.join(__dirname, 'src', 'styles'),
+      logging: path.join(__dirname, 'src', 'logging'),
+      colors: path.join(__dirname, 'node_modules', 'colors')
     },
-    modules: ['node_modules', 'kotlin_build']
+    modules: ['node_modules', kotlinBuildDir]
   },
 
   module: {
@@ -183,11 +203,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, '../kotlin_build'),
+        include: path.resolve(__dirname, `../${kotlinBuildDir}`),
         /*exclude: [
           /kotlin\.js$/  // Kotlin runtime doesn't have sourcemaps at the moment
         ],*/
-        use: ['babel-loader', 'source-map-loader'],
+        use: ['babel-loader', 'react-loader', 'source-map-loader'],
         enforce: 'pre'
       }
     ]

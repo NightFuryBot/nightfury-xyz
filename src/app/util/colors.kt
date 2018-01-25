@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package index
+@file:JsModule("colors/safe.js")
+package app.util
 
-import kotlinext.js.invoke
-import kotlinext.js.require
-import react.*
-import react.dom.div
+external fun black(str: String): String
+external fun red(str: String): String
+external fun green(str: String): String
+external fun yellow(str: String): String
+external fun blue(str: String): String
 
-val css: dynamic = require("styles/index.css")
-
-/**
- * @author Kaidan Gustave
- */
-class Index : RComponent<RProps, RState>() {
-    override fun RBuilder.render(): dynamic {
-        return div("center-div") {
-            + "Hello World"
-        }
-    }
-}
+external fun bold(str: String): String

@@ -13,27 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import url(./horizontal-nav-bar.css);
-
-:root {
-  --dark-text: darkred;
-  --light-text: orangered;
-  --selection-highlight: #B3E25E;
-  --main-page-color: #313332;
-  --nav-bar-block-color: #414442;
-}
-
-.copyright {
-  top: 90%;
-  left: 50%;
-  position: fixed;
-  vertical-align: middle;
-  font-family: sans-serif;
-  font-weight: bold;
-  transform: translate(-50%, -10%);
-  color: var(--light-text);
-}
-
-body {
-  background-color: var(--main-page-color);
-}
+@import url(./layout.css);

@@ -13,15 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import "layout.css";
-
-.center-div {
-  top: 50%;
-  left: 50%;
-  position: fixed;
-  transform: translate(-50%, -50%);
-}
-
+@import url(./layout.css);
 @keyframes center-div-animation {
   from {
     opacity: 0.0;
@@ -31,11 +23,18 @@
   }
 }
 
+.center-div {
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
 .center-div-header {
   position: relative;
   text-align: center;
   vertical-align: middle;
-  font-family: "Kung Fu Panda", fantasy;
+  font-family: 'Kung Fu Panda', fantasy;
   color: var(--dark-text);
   animation: center-div-animation 2.5s;
 }
@@ -44,12 +43,8 @@
   position: relative;
   vertical-align: middle;
   font-style: normal;
-  font-family: "Kingthings Clarity", fantasy;
+  font-family: 'Kingthings Clarity', fantasy;
   font-weight: bold;
   color: var(--light-text);
   animation: center-div-animation 4.5s;
-}
-
-.index {
-  background-color: var(--main-page-color);
 }

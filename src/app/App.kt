@@ -15,15 +15,28 @@
  */
 package app
 
-import index.Index
+import app.util.BOT_INVITE_LINK
+import app.util.DISCORD_SERVER_LINK
+import app.util.GITHUB_ORG
+import views.Index
 import routing.Router
+import routing.redirect
 import routing.route
+import views.Projects
 
 /**
  * @author Kaidan Gustave
  */
 fun main(args: Array<String>) {
-    route("/", Index())
+    route("/")         { Index() }
+    route("/projects") { Projects() }
+
+    // Link /home back to /
+    redirect("/home", "/", internal = true)
+
+    redirect("/invite", BOT_INVITE_LINK)
+    redirect("/support", DISCORD_SERVER_LINK)
+    redirect("/github", "$GITHUB_ORG/NightFury")
 
     Router.launch()
 }

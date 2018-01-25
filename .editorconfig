@@ -17,3 +17,7 @@ insert_final_newline = true
 [*.{md}]
 trim_trailing whitespace = true
 insert_final_newline = false
+
+[*.json]
+indent_size = 2
+end_of_line = lf

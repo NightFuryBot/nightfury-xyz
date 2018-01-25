@@ -20,6 +20,9 @@ function cleanOut(dir) {
   return gulp.src(dir, {read: false}).pipe(clean())
 }
 
+// Pipes fonts to build directory
+gulp.task('pipe-fonts', () => gulp.src('public/fonts/**').pipe(gulp.dest('build/fonts/')));
+
 // Cleans all .js files from the build directory
 gulp.task('clean-js', () => cleanOut('build/**/*.js'));
 
