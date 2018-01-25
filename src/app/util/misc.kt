@@ -15,6 +15,11 @@
  */
 package app.util
 
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
+
 val production: Boolean by lazy {
     try {
         js("process.env.NODE_ENV === 'production'").unsafeCast<Boolean>()
@@ -23,3 +28,9 @@ val production: Boolean by lazy {
         false // We should never be in production if something like this is failing anyways
     }
 }
+
+inline fun <P: RProps, S: RState, reified C: RComponent<P, S>>
+    C.renderInto(builder: RBuilder) = with(builder) { this.render() }
+
+inline val <reified E: Enum<E>> E.niceName: String
+    inline get() = name.split('_').joinToString(" ") { it.toLowerCase().capitalize() }

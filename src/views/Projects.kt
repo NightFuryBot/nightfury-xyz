@@ -15,6 +15,7 @@
  */
 package views
 
+import app.util.renderInto
 import views.components.NavigationBar
 import kotlinext.js.invoke
 import kotlinext.js.require
@@ -22,15 +23,45 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
+import react.dom.div
+import react.dom.h1
+import react.dom.p
+import kotlin.js.Json
+import kotlin.js.json
 
 @Suppress("Unused")
 val projectsCss: dynamic = require("styles/projects.css")
 
+const val projectDiv = "project-div"
+const val projectHeader = "project-header"
+const val projectDescriptionDiv = "project-description-div"
+const val projectDescriptionParagraph = "project-description-paragraph"
+
 class Projects : RComponent<RProps, RState>() {
     private val navBar: NavigationBar = NavigationBar()
 
+    private val projects: Array<Json> = arrayOf(
+        json(
+            "name" to "NightFury",
+            "description" to "A Discord Bot for Your Server!"
+        )
+    )
+
     override fun RBuilder.render() {
-        with(navBar) { this@render.render() }
-        // TODO Projects Page
+        navBar.renderInto(this)
+        projects.forEach {
+            val name = it["name"] as String
+            val description = it["description"] as String
+            div(classes = projectDiv) {
+                h1(classes = projectHeader) {
+                    + name
+                }
+                div(classes = projectDescriptionDiv) {
+                    p(classes = projectDescriptionParagraph) {
+                        + description
+                    }
+                }
+            }
+        }
     }
 }

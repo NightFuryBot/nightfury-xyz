@@ -16,6 +16,9 @@
 @file:Suppress("Unused", "ObjectPropertyName", "MemberVisibilityCanBePrivate")
 package app.util
 
+import routing.HTTPErrorException
+import kotlin.js.Json
+
 var defaultLogLevel: LogLevel = getInitialLogLevel()
 
 private fun getInitialLogLevel(): LogLevel {
@@ -42,13 +45,16 @@ interface Logger {
         fun getLogger(clazz: JsClass<*>, level: LogLevel = defaultLogLevel): Logger = NamedLogger(clazz.name, level)
     }
 
-    fun log(level: LogLevel, msg: String)
+    fun log(level: LogLevel, msg: String?, json: Json?)
+    fun log(httpErrorException: HTTPErrorException) {
+        log(LogLevel.ERROR, httpErrorException.message, httpErrorException.details)
+    }
 
-    fun trace(msg: String) = log(LogLevel.TRACE, msg)
-    fun debug(msg: String) = log(LogLevel.DEBUG, msg)
-    fun info(msg: String) = log(LogLevel.INFO, msg)
-    fun warn(msg: String) = log(LogLevel.WARN, msg)
-    fun error(msg: String) = log(LogLevel.ERROR, msg)
+    fun trace(msg: String? = null, json: Json? = null) = log(LogLevel.TRACE, msg, json)
+    fun debug(msg: String? = null, json: Json? = null) = log(LogLevel.DEBUG, msg, json)
+    fun info(msg: String? = null, json: Json? = null) = log(LogLevel.INFO, msg, json)
+    fun warn(msg: String? = null, json: Json? = null) = log(LogLevel.WARN, msg, json)
+    fun error(msg: String? = null, json: Json? = null) = log(LogLevel.ERROR, msg, json)
 }
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -68,11 +74,15 @@ enum class LogLevel(val highlight: (String) -> String) {
 }
 
 class NamedLogger(private val name: String, private val level: LogLevel): Logger {
-    override fun log(level: LogLevel, msg: String) {
+    override fun log(level: LogLevel, msg: String?, json: Json?) {
         if(this.level doesNotAccept level)
             return
 
-        val toLog = "[${level.highlight(name)}] [${level.highlight("$level")}]: ${level.highlight(msg)}"
+        val toLog = buildString {
+            append("[${level.highlight(name)}] [${level.highlight("$level")}]:")
+            msg?.let { append(" ${level.highlight(it)}") }
+            json?.let { append("\n${JSON.stringify(json)}") }
+        }
 
         console.log(toLog)
     }

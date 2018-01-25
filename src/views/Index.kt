@@ -15,13 +15,14 @@
  */
 package views
 
-import views.components.NavigationBar
+import app.util.renderInto
 import kotlinext.js.invoke
 import kotlinext.js.require
 import react.*
 import react.dom.div
 import react.dom.h1
 import react.dom.p
+import views.components.NavigationBar
 
 @Suppress("Unused")
 val indexCss: dynamic = require("styles/index.css")
@@ -30,7 +31,7 @@ class Index : RComponent<RProps, RState>() {
     private val navBar = NavigationBar()
 
     override fun RBuilder.render() {
-        with(navBar) { this@render.render() }
+        navBar.renderInto(this)
         div(classes = "center-div") {
             h1(classes = "center-div-header") { + "NightFury" }
             p(classes = "center-div-paragraph")  { + "A Discord Bot For Your Server" }

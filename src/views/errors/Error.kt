@@ -13,33 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package app
-
-import app.util.BOT_INVITE_LINK
-import app.util.DISCORD_SERVER_LINK
-import app.util.GITHUB_ORG
-import routing.Router
-import routing.redirect
-import routing.route
-import views.Index
-import views.Projects
-import kotlin.browser.window
+package views.errors
 
 /**
  * @author Kaidan Gustave
  */
-fun main(args: Array<String>) {
-    route("/")         { Index() }
-    route("/projects") { Projects() }
-
-    // Link /home back to /
-    redirect("/home", "/", internal = true)
-
-    redirect("/invite", BOT_INVITE_LINK)
-    redirect("/support", DISCORD_SERVER_LINK)
-    redirect("/github", "$GITHUB_ORG/NightFury")
-
-    window.onload = {
-        Router.launch()
-    }
-}
+class Error {}

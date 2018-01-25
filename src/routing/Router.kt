@@ -19,28 +19,35 @@ package routing
 import app.util.Logger
 import app.util.production
 import kotlin.browser.document
+import kotlin.js.Json
 
 /**
  * @author Kaidan Gustave
  */
-object Router {
-    private val routes = HashSet<Route>()
-    internal val ext: String = if(production) "" else "/nightfury-xyz/build"
+object Router : Json {
+    private val routes = HashMap<String, Route>()
+    val ext: String = if(production) "" else "/nightfury-xyz/build"
 
-    val LOGGER: Logger = Logger.getLogger(Router::class.js)
+    val LOGGER = Logger.getLogger(Router::class.js)
 
-    operator fun plusAssign(route: Route) {
-        routes += route
+    override fun get(propertyName: String): Route {
+        return routes[propertyName] ?: httpError(404)
     }
 
-    operator fun minusAssign(route: Route) {
-        routes -= route
+    override fun set(propertyName: String, value: Any?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun launch() {
-        val location = document.location
+        val location = document.location ?:
+                       return LOGGER.error("Could not find page location!\n" +
+                                           "Document URL: ${document.URL}")
 
-        LOGGER.info("Viewing '${location?.pathname}'")
-        routes.firstOrNull { it.from == location?.pathname }?.direct()
+        LOGGER.info("Viewing '${location.pathname}'")
+        try {
+            this[location.pathname].direct()
+        } catch(e: HTTPErrorException) {
+
+        }
     }
 }

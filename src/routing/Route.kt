@@ -31,13 +31,10 @@ interface Route {
 
 // Simple class for rendering a react component when
 // a route is requested.
-class ComponentRoute(
-    override val from: String,
-    // We store the component as a function so we don't
-    // waste memory on components we won't render.
-    private val component: () -> RComponent<RProps, RState>,
-    private val target: String
-): Route {
+class ComponentRoute
+// We store the component as a function so we don't
+// waste memory on components we won't render.
+constructor(override val from: String, private val component: () -> RComponent<RProps, RState>, val target: String): Route {
     override fun direct() {
         // Render the component to the target element and boom, done.
         render(component().render(), document.getElementById(target))
@@ -45,7 +42,7 @@ class ComponentRoute(
 }
 
 // Redirect route, pushes requests from one URI to another
-class RedirectRoute(override val from: String, private val to: String): Route {
+class RedirectRoute(override val from: String, val to: String): Route {
     override fun direct() {
         // Redirected via Location#assign
         document.location!!.assign(to)
@@ -53,11 +50,13 @@ class RedirectRoute(override val from: String, private val to: String): Route {
 }
 
 fun redirect(from: String, to: String, internal: Boolean = false) {
+    val path = "${Router.ext}$from"
     // Register to Router
-    Router += RedirectRoute(from, if(internal) "${document.origin}$to" else to)
+    Router[path] = RedirectRoute(path, if(internal) "${document.origin}$to" else to)
 }
 
 fun route(from: String, target: String = "root", component: () -> RComponent<RProps, RState>) {
+    val path = "${Router.ext}$from"
     // Register to Router
-    Router += ComponentRoute("${Router.ext}$from", component, target)
+    Router[path] = ComponentRoute("${Router.ext}$from", component, target)
 }

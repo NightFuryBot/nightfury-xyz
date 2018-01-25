@@ -75,6 +75,15 @@ function minifyContent(content) {
   }
 }
 
+function htmlPlugin(filename, title, output = undefined) {
+  return new HtmlWebpackPlugin({
+    filename: filename,
+    title: title,
+    output: output === undefined? filename : output,
+    template: path.join(__dirname, 'public', filename)
+  });
+}
+
 // Initialize plugins
 // We do this outside of the module.exports because
 // in production we add some extra plugins (see below)
@@ -118,18 +127,9 @@ const webpackPlugins = [
     }
   ]),
 
-  new HtmlWebpackPlugin({
-    output: 'index.html',
-    title: 'NightFury',
-    template: path.join(__dirname, 'public', 'index.html')
-  }),
+  htmlPlugin('index.html', 'NightFury'),
 
-  new HtmlWebpackPlugin({
-    filename: 'projects.html',
-    output: 'projects.html',
-    title: 'Projects',
-    template: path.join(__dirname, 'public', 'projects.html')
-  }),
+  htmlPlugin('projects.html', 'Projects'),
 
   new HtmlWebpackIncludeAssetsPlugin({
     assets: styleSheets.map(function (s) { return "css/" + s }),
