@@ -15,48 +15,73 @@
  */
 package routing
 
+import app.annotations.LateinitFriendly
 import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.render
 import kotlin.browser.document
 
-/**
- * @author Kaidan Gustave
- */
 interface Route {
     val from: String
     fun direct()
 }
 
-// Simple class for rendering a react component when
-// a route is requested.
-class ComponentRoute
-// We store the component as a function so we don't
-// waste memory on components we won't render.
-constructor(override val from: String, private val component: () -> RComponent<RProps, RState>, val target: String): Route {
-    override fun direct() {
-        // Render the component to the target element and boom, done.
-        render(component().render(), document.getElementById(target))
+interface ContextRoute<out C> : Route {
+    val contextGen: () -> C
+    val context: C
+}
+
+abstract class AbstractRoute(override val from: String): Route {
+    override fun toString(): String = from
+    override fun hashCode(): Int = from.hashCode()
+    override fun equals(other: Any?): Boolean {
+        if(other !is AbstractRoute)
+            return false
+
+        return from == other.from
     }
 }
 
-// Redirect route, pushes requests from one URI to another
-class RedirectRoute(override val from: String, val to: String): Route {
+abstract class AbstractComponentRoute(override val from: String): Route {
+    protected abstract val generate: () -> RComponent<RProps, RState>
+    protected abstract val element: String
+
     override fun direct() {
-        // Redirected via Location#assign
-        document.location!!.assign(to)
+        render(generate().render(), document.getElementById(element))
     }
 }
 
-fun redirect(from: String, to: String, internal: Boolean = false) {
-    val path = "${Router.ext}$from"
-    // Register to Router
-    Router[path] = RedirectRoute(path, if(internal) "${document.origin}$to" else to)
+abstract class AbstractComponentContextRoute<C>(override val from: String): Route, ContextRoute<C> {
+    protected abstract val generate: (C) -> RComponent<RProps, RState>
+    protected abstract val element: String
+
+    @LateinitFriendly
+    abstract override var context: C
+
+    override fun direct() {
+        context = contextGen()
+        render(generate(context).render(), document.getElementById(element))
+    }
 }
 
-fun route(from: String, target: String = "root", component: () -> RComponent<RProps, RState>) {
-    val path = "${Router.ext}$from"
-    // Register to Router
-    Router[path] = ComponentRoute("${Router.ext}$from", component, target)
+abstract class ComponentProvidedContextRoute<C, out Comp: RComponent<*,*>>(override val from: String): Route {
+    protected abstract val generate: (C) -> Comp
+    protected abstract val element: String
+
+    @LateinitFriendly
+    abstract var context: C
+
+    fun direct(context: C) {
+        this.context = context
+        direct()
+    }
+
+    override fun direct() {
+        // Context should be provided beforehand.
+        // This is for calls that depend on internal systems, and should be used
+        // SPARINGLY to prevent consistency, backwards compatibility, and less
+        // hardcoding.
+        render(generate(context).render(), document.getElementById(element))
+    }
 }

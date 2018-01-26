@@ -26,6 +26,7 @@ import react.RState
 import react.dom.div
 import react.dom.h1
 import react.dom.p
+import kotlin.browser.document
 import kotlin.js.Json
 import kotlin.js.json
 
@@ -46,6 +47,10 @@ class Projects : RComponent<RProps, RState>() {
             "description" to "A Discord Bot for Your Server!"
         )
     )
+
+    override fun RState.init() {
+        document.title = "Projects"
+    }
 
     override fun RBuilder.render() {
         navBar.renderInto(this)

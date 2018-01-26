@@ -21,6 +21,7 @@ import app.util.GITHUB_ORG
 import routing.Router
 import routing.redirect
 import routing.route
+import routing.error
 import views.Index
 import views.Projects
 import kotlin.browser.window
@@ -31,6 +32,10 @@ import kotlin.browser.window
 fun main(args: Array<String>) {
     route("/")         { Index() }
     route("/projects") { Projects() }
+
+    error(400)
+    error(404)
+    error(500)
 
     // Link /home back to /
     redirect("/home", "/", internal = true)

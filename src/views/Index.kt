@@ -23,12 +23,17 @@ import react.dom.div
 import react.dom.h1
 import react.dom.p
 import views.components.NavigationBar
+import kotlin.browser.document
 
 @Suppress("Unused")
 val indexCss: dynamic = require("styles/index.css")
 
 class Index : RComponent<RProps, RState>() {
     private val navBar = NavigationBar()
+
+    override fun RState.init() {
+        document.title = "NightFury"
+    }
 
     override fun RBuilder.render() {
         navBar.renderInto(this)

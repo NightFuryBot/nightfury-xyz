@@ -25,9 +25,16 @@ import kotlin.js.Json
  * @author Kaidan Gustave
  */
 object Router : Json {
+    // All routes (redirects included) mapped to their respective paths
     private val routes = HashMap<String, Route>()
-    val ext: String = if(production) "" else "/nightfury-xyz/build"
 
+    /** The base path extension, used for development build testing. */
+    val EXT = if(production) "" else "/nightfury-xyz/build"
+
+    /** The error path extension. Does not include the base path [extension][EXT]. */
+    const val ERROR_EXT = "/error"
+
+    /** A logger for internal usage. */
     val LOGGER = Logger.getLogger(Router::class.js)
 
     override fun get(propertyName: String): Route {
@@ -35,19 +42,30 @@ object Router : Json {
     }
 
     override fun set(propertyName: String, value: Any?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(value !is Route)
+            return // Nothing to worry about
+
+        routes[propertyName] = value
     }
 
     fun launch() {
-        val location = document.location ?:
-                       return LOGGER.error("Could not find page location!\n" +
-                                           "Document URL: ${document.URL}")
+        val location = document.location ?: return LOGGER.error("Could not find page location!\n" +
+                                                                "Document URL: ${document.URL}")
 
         LOGGER.info("Viewing '${location.pathname}'")
         try {
             this[location.pathname].direct()
         } catch(e: HTTPErrorException) {
+            val httpRoutes = routes.values.mapNotNull { it as? ErrorRoute }
 
+            // First we try to grab the HTTPError route for the exception we just caught.
+            // There is always a chance we haven't defined this error response yet, so in that
+            // case we will show 500.
+            // TODO At a certain point, I would like to make this a wildcard error on it's own.
+            val httpRoute = httpRoutes.firstOrNull { it.code == e.error.code }
+                            ?: httpRoutes.first { it.code == 500 }
+
+            httpRoute.direct(e)
         }
     }
 }

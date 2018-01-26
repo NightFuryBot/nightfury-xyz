@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("MemberVisibilityCanBePrivate")
 package routing
 
 import app.util.niceName
+import react.RProps
 import kotlin.js.Json
 
 /**
@@ -88,7 +90,9 @@ enum class HTTPError(val code: Int, meaning: String? = null) {
 
     val meaning: String = meaning ?: niceName
 
-    fun emit(): Nothing = throw HTTPErrorException(this)
+    fun emit(message: String? = null): Nothing = throw HTTPErrorException(this, message = message)
+
+    override fun toString(): String = "$code - $meaning"
 
     companion object {
         fun ofCode(code: Int): HTTPError = values().firstOrNull { it.code == code }
@@ -96,8 +100,12 @@ enum class HTTPError(val code: Int, meaning: String? = null) {
     }
 }
 
-class HTTPErrorException(val error: HTTPError, val details: Json? = null) : RuntimeException() {
-    override val message: String = "${error.code} - ${error.meaning}"
+class HTTPErrorException(
+    val error: HTTPError,
+    val details: Json? = null,
+    message: String? = null
+): RuntimeException(), RProps {
+    override val message = message ?: "$error"
 }
 
-fun httpError(code: Int): Nothing = HTTPError.ofCode(code).emit()
+fun httpError(code: Int, message: String? = null): Nothing = HTTPError.ofCode(code).emit(message)
