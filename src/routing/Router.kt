@@ -52,9 +52,11 @@ object Router : Json {
         val location = document.location ?: return LOGGER.error("Could not find page location!\n" +
                                                                 "Document URL: ${document.URL}")
 
-        LOGGER.info("Viewing '${location.pathname}'")
+        val pathname = location.pathname
+
+        LOGGER.info("Viewing '$pathname'")
         try {
-            this[location.pathname].direct()
+            this[pathname].direct()
         } catch(e: HTTPErrorException) {
             val httpRoutes = routes.values.mapNotNull { it as? ErrorRoute }
 

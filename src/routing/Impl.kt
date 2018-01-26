@@ -42,7 +42,7 @@ class ErrorRoute(val code: Int, from: String, override val element: String):
 
 
 fun route(from: String, element: String = DEFAULT_ELEMENT, generate: () -> RComponent<RProps, RState>) {
-    val path = "${Router.EXT}/$from"
+    val path = Router.EXT + from
     Router[path] = object : AbstractComponentRoute(path) {
         override val generate = generate
         override val element = element
@@ -52,7 +52,7 @@ fun route(from: String, element: String = DEFAULT_ELEMENT, generate: () -> RComp
 fun <C: Any> contextRoute(from: String, element: String = DEFAULT_ELEMENT,
                           contextGen: () -> C,
                           componentGen: (C) -> RComponent<RProps, RState>) {
-    val path = "${Router.EXT}/$from"
+    val path = Router.EXT + from
 
     Router[path] = object : AbstractComponentContextRoute<C>(path) {
         override lateinit var context: C

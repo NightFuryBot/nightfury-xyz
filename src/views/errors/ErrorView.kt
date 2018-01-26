@@ -1,0 +1,37 @@
+/*
+ * Copyright 2018 Kaidan Gustave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package views.errors
+
+import kotlinext.js.invoke
+import kotlinext.js.require
+import react.RBuilder
+import react.RComponent
+import react.RState
+import react.dom.h1
+import routing.HTTPErrorException
+import routing.Router
+
+@Suppress("Unused")
+val indexCss: dynamic = require("styles/error.css")
+
+class ErrorView(props: HTTPErrorException): RComponent<HTTPErrorException, RState>(props) {
+    override fun RBuilder.render() {
+        Router.LOGGER.log(props)
+        h1(classes = "error-header") {
+            + props.message
+        }
+    }
+}
